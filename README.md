@@ -16,7 +16,7 @@ The scripts use [Pefile](https://pypi.org/project/pefile/) to identify the malwa
 ### Getting a key
   - In order to use the API you must sign up to VirusTotal Community. Once you have a valid VirusTotal Community account you will find your personal API key in your personal settings section
   - For more information, go to the [Virus Total API](https://developers.virustotal.com/reference#getting-started) and follow the steps.
-  - After you get the key, assign it to the "key" variable in the "vtapi.py" script 
+  - After you get the key, assign it to the "key" variable in the "script/vtapi.py" script 
 
 
 ### To test with the files in this repository:
