@@ -95,7 +95,7 @@ class data_manager:
             det_file = self.open_file(name, "x")
            
             header = self.get_header(ext)
-            det_file.write(header)
+            det_file.write(header + "\n")
             if not self.nprint:
                 print("\n(MD5): {name}".format(name=hash_name))
                 print(header)
@@ -117,7 +117,7 @@ class data_manager:
                     aux = " {:<10}".format(aux)
                     data_string = data_string + aux
 
-                det_file.write(data_string)
+                det_file.write(data_string + "\n")
                 if not self.nprint:
                     print(data_string)
 
