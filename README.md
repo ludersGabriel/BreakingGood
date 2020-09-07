@@ -23,7 +23,7 @@ The scripts use [Pefile](https://pypi.org/project/pefile/) to identify the malwa
     - using an injector, appends execuble code from the dll into the malware
 
 
-## Runing
+## Running
 ### Getting a key
   - In order to use the API you must sign up to VirusTotal Community. Once you have a valid VirusTotal Community account you will find your personal API key in your personal settings section
   - For more information, go to the [Virus Total API](https://developers.virustotal.com/reference#getting-started) and follow the steps.
