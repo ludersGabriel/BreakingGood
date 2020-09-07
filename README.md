@@ -12,10 +12,15 @@ The scripts use [Pefile](https://pypi.org/project/pefile/) to identify the malwa
 
 ## Supported Modifications
   - append raw binary data
-    - Appends strings returned by the bash command ```strings```
+    - Appends raw binary data returned by the bash command ```us.random``` with a fixed length of 50
   - append goodware strings
-  - change int3 instructions  
+    - appends strings extrected from the dll passed by the user using the bash command ```strings```
+  - change int3 instructions
+    - substitutes int3 instructions by a pair of add and sub instructions whenever possible
   - swap ret instructions with nop instructions
+    - changes the organization of the code by swapping nop instructions with the ret instruction directly above
+  - Append Goodware Sections
+    - using an injector, appends execuble code from the dll into the malware
 
 
 ## Runing
@@ -38,6 +43,8 @@ The scripts use [Pefile](https://pypi.org/project/pefile/) to identify the malwa
 ```
 
 ## Results
+  The table bellow is an exemple output of the program if execution is successful. It represents the impact each modification had on the sample when it was submitted for analysis.
+  
   - False: not a malware
   - True: a malware
 
