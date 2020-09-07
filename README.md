@@ -1,7 +1,7 @@
 # Breaking Good
 
 ## About
-Tool developed with the objective of generating adversary malware that are capable of evading some modern antivirus' techniques. Written by Gabriel Lüders, an undergraduate student from UFPR - Brazil.
+Tool developed with the objective of generating adversary malware, from existing malicious software, that are capable of evading some modern antivirus' techniques. Written by Gabriel Lüders, an undergraduate student from UFPR - Brazil.
 
 ## Goals
 
