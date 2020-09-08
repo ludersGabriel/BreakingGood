@@ -33,7 +33,8 @@ The scripts use [Pefile](https://pypi.org/project/pefile/) to identify the malwa
 ### To test with the files in this repository:
 
 ```
-  python3 main.py [Folder for results] malware cmiv2.dll
+  cd BreakingGood/Files/Scripts
+  python3 main.py [Folder for results] ../malwareSample/malware ../goodwareSample/cmiv2.dll
 ```
 
 ### For more information on how to run it: 
