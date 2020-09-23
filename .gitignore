@@ -2,3 +2,7 @@
 ./script/__pycache__
 ./script/teste
 Files/libraries/vtapi.py
+Files/libraries/__pycache__/breakingood.cpython-38.pyc
+Files/libraries/__pycache__/data_treatment.cpython-38.pyc
+Files/libraries/__pycache__/malware_manipulation.cpython-38.pyc
+Files/libraries/__pycache__/vtapi.cpython-38.pyc
