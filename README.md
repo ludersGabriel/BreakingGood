@@ -5,8 +5,7 @@ Tool developed with the objective of generating adversary malware, from existing
 
 
 ## Contributors
-  - Advisor
-    - André Grégio
+  - André Grégio (advisor)
   - Marcus Botacin
   - Fabrício Ceschin
 ### Get to know us better accessing [SECRET - SEcurity & Reverse Engineering Team](https://secret.inf.ufpr.br/)
