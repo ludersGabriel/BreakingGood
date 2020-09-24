@@ -9,16 +9,24 @@ from libraries import data_treatment, malware_manipulation, vtapi
 
 
 class Breakingood():
-    @staticmethod
-    def open_file(name, mode):
+    bgResults = "bgResults"
+    injectionPath = "libraries/injection.py"
+
+    def __init__(self, key="", nsave=False, ncolor=False, nprint=False):
+        self.key = key
+        self.nsave = nsave
+        self.ncolor = ncolor
+        self.nprint = nprint
+
+    def open_file(self, name, mode):
         file = open(name, mode)
         if file.closed:
             print("Could not open {name}".format(name=name))
             sys.exit(1)
         return file
 
-    @staticmethod
-    def check_exe(path):
+    
+    def check_exe(self, path):
         s = magic.from_file(path)
         s = s.split(" ")
 
@@ -34,8 +42,8 @@ class Breakingood():
 
         return s[0]
 
-    @staticmethod
-    def files_in(path):
+    
+    def files_in(self, path):
         files = os.popen("ls {folder}".format(folder=path)).read()
         files = list(files.split("\n"))
         del files[len(files) - 1]
@@ -43,38 +51,41 @@ class Breakingood():
         if not files: return None
         return files
 
-    @staticmethod
-    def add_bytes(malwarePath, resultsPath):
+    
+    def add_bytes(self, malwarePath, resultsPath):
         malware = malware_manipulation.append(resultsPath)
         malware.add_bytes(malwarePath)
 
-    @staticmethod
-    def add_strings(malwarePath, goodwarePath, resultsPath):
+    
+    def add_strings(self, malwarePath, goodwarePath, resultsPath):
         malware = malware_manipulation.append(resultsPath)
         malware.add_strings(goodwarePath, malwarePath)
 
-    @staticmethod
-    def append_goodware_sections(malwarePath, goodwarePath, resultsPath):
+    
+    def append_goodware_sections(self, malwarePath, goodwarePath, resultsPath):
         dis =malware_manipulation.disassemble(resultsPath)
         dis.append_goodware_sections(malwarePath, goodwarePath)
 
-    @staticmethod
-    def swap_ret_nop(malwarePath, offset, resultsPath):
+    
+    def swap_ret_nop(self, malwarePath, offset, resultsPath):
         dis = malware_manipulation.disassemble(resultsPath)
         dis.swap_ret_nop(malwarePath, offset)
     
-    @staticmethod
-    def replace_int3_addSub(malwarePath, resultsPath):
+    
+    def replace_int3_addSub(self, malwarePath, resultsPath):
         dis = malware_manipulation.disassemble(resultsPath)
         dis.replace_int3_addSub(malwarePath)
 
-    @staticmethod
-    def handle_virus_total(resultsPath, nsave=False):
-        files = Breakingood.files_in(resultsPath)
+    
+    def handle_virus_total(self, resultsPath=bgResults, key=None):
+        if key is None:
+            key = self.key
+
+        files = self.files_in(resultsPath)
         if not files:
             print("No files to analyze")
             sys.exit(2)
-        api = vtapi.handle_api(resultsPath, nsave)
+        api = vtapi.handle_api(resultsPath, key)
 
         for file in files:
             api_file = "{folder}/{file}".format(folder=resultsPath, file=file)
@@ -87,23 +98,29 @@ class Breakingood():
                 print("[+]Waiting for Virus Total Response..")
                 report = api.file_report(scan["md5"])
 
-            if not nsave:
-                name = "{folder}/{file}.vt".format(folder=resultsPath, file=file)
-                save_file = Breakingood.open_file(name, "w")
-                save_file.write(json.dumps(report))
-                save_file.close()
+            name = "{folder}/{file}.vt".format(folder=resultsPath, file=file)
+            save_file = self.open_file(name, "w")
+            save_file.write(json.dumps(report))
+            save_file.close()
             time.sleep(60)
 
-    @staticmethod
-    def handle_results_table(resultsPath, ncolor, nprint):
-        data_manager = data_treatment.data_manager(resultsPath, ncolor, nprint)
-        data_manager.detection_table()
+    
+    def handle_results_table(self, resultsPath=bgResults, ncolor=None, 
+                            nprint=None, nsave=None):
+        if ncolor is None:
+            ncolor = self.ncolor
+        if nprint is None:
+            nprint = self.nprint
+        if nsave is None:
+            nsave = self.nsave
 
+        dm = data_treatment.data_manager(resultsPath, ncolor, nprint, nsave)
+        dm.detection_table()
 
-    @staticmethod
-    def example(malwarePath=None, goodwarePath=None, resultsPath="./bgResults",
-                nsave=False, ncolor=False, nprint=False, raw=True, strings=True,
-                gwa=True, swap=True, replace=True):
+    
+    def build_adversaries(self, malwarePath=None, goodwarePath=None, 
+                        resultsPath=bgResults, raw=True, strings=True, gwa=True,
+                        swap=True, replace=True):
         if not malwarePath:
             print("No malware specified")
             sys.exit(2)
@@ -113,19 +130,16 @@ class Breakingood():
         
         if raw:
             print("[+]Working on raw byte append (.BYTE)..")
-            Breakingood.add_bytes(malwarePath, resultsPath)
+            self.add_bytes(malwarePath, resultsPath)
         if strings:
             print("[+]Working on goodware string append (.STRING)..")
-            Breakingood.add_strings(malwarePath, goodwarePath, resultsPath)
+            self.add_strings(malwarePath, goodwarePath, resultsPath)
         if gwa:
             print("[+]Working on goodware sections append (.GWA)..")
-            Breakingood.append_goodware_sections(malwarePath, goodwarePath, resultsPath)
+            self.append_goodware_sections(malwarePath, goodwarePath, resultsPath)
         if swap:
             print("[+]Working on swap ret with nop (.SWAP)..")
-            Breakingood.swap_ret_nop(malwarePath, 3, resultsPath)
+            self.swap_ret_nop(malwarePath, 3, resultsPath)
         if replace:
             print("[+]Working on replace int3 with addSub (.ADDSUB)..")
-            Breakingood.replace_int3_addSub(malwarePath, resultsPath)
-
-        Breakingood.handle_virus_total(resultsPath, nsave)
-        Breakingood.handle_results_table(resultsPath, ncolor, nprint)
+            self.replace_int3_addSub(malwarePath, resultsPath)

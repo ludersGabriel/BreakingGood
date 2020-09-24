@@ -2,7 +2,7 @@
 #coding: utf-8
 
 import argparse
-from libraries.breakingood import Breakingood as bg
+from libraries.breakingood import Breakingood
 
 def arg_parser():
     parser = argparse.ArgumentParser(description="Modifies original malware by \
@@ -18,9 +18,11 @@ def arg_parser():
 
 def main():
     args = arg_parser()
-    bg.example(args.malware, args.goodware, args.folder, args.nsave,
-    args.ncolor, args.nprint)
 
+    bg = Breakingood()
+    bg.build_adversaries(args.malware,args.goodware)
+    bg.handle_virus_total(key="7c4c63de83977f7e28e966435e83d672302ac8d9c07e31741973d572fbaaee00")
+    bg.handle_results_table()
 
 if __name__ == "__main__":
     main()
