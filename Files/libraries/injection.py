@@ -40,8 +40,6 @@ exe_path = args.malware
 # STEP 0x01 - Resize the Executable
 # Note: I added some more space to avoid error
 
-print "[+]Working on goodware sections append (GWA).."
-
 
 original_size = os.path.getsize(exe_path)
 goodware_size = os.path.getsize(args.goodware)

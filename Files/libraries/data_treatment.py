@@ -10,16 +10,22 @@ class data_manager:
     ext6 = ".gwa"
     treatmentExt = "det"
      
-    def __init__(self, temp_dir, ncolor, nprint):
+    def __init__(self, temp_dir, ncolor, nprint, nsave):
         self.temp_dir = temp_dir
         self.ncolor = ncolor
         self.nprint = nprint
+        self.nsave = nsave
     
     def open_file(self, name, mode):
-        file = open(name, mode)
-        if file.closed:
-            print("Could not open {name}".format(name=name))
-            sys.exit(1)
+        try:
+            file = open(name, mode)
+        except:
+            if mode == "x" or mode == "xb":
+                print("Error: File {name} already exists".format(name=name))
+                sys.exit(2)
+            else:
+                print("Error: Could not open {name}".format(name=name))
+                sys.exit(2)
         return file
 
     def get_dict(self, file):
@@ -92,6 +98,12 @@ class data_manager:
 
         for hash_name in hashes:
             name = "{dir}/{name}.{extension}".format(dir=self.temp_dir, name=hash_name, extension=self.treatmentExt)
+            if os.path.isfile(name):
+                det_file = self.open_file(name, "r")
+                for line in det_file:
+                    print(line)
+                det_file.close()
+                return
             det_file = self.open_file(name, "x")
            
             header = self.get_header(ext)
@@ -117,7 +129,9 @@ class data_manager:
                     aux = " {:<10}".format(aux)
                     data_string = data_string + aux
 
-                det_file.write(data_string + "\n")
+
+                if not self.nsave:
+                    det_file.write(data_string + "\n")
                 if not self.nprint:
                     print(data_string)
 
