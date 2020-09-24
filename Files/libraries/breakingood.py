@@ -94,7 +94,7 @@ class Breakingood():
             report = api.file_report(scan["md5"])
             print("[+]Waiting for Virus Total Response..")
             while report["response_code"] != 1:
-                time.sleep(60)
+                time.sleep(30)
                 print("[+]Waiting for Virus Total Response..")
                 report = api.file_report(scan["md5"])
 
@@ -102,7 +102,7 @@ class Breakingood():
             save_file = self.open_file(name, "w")
             save_file.write(json.dumps(report))
             save_file.close()
-            time.sleep(60)
+            time.sleep(30)
 
     
     def handle_results_table(self, resultsPath=bgResults, ncolor=None, 
