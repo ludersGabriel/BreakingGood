@@ -92,10 +92,10 @@ class Breakingood():
             scan = api.file_scan(api_file)
             
             report = api.file_report(scan["md5"])
-            print("[+]Waiting for Virus Total Response..")
+            print("[+] Waiting for Virus Total Response..")
             while report["response_code"] != 1:
                 time.sleep(30)
-                print("[+]Waiting for Virus Total Response..")
+                print("[+] Waiting for Virus Total Response..")
                 report = api.file_report(scan["md5"])
 
             name = "{folder}/{file}.vt".format(folder=resultsPath, file=file)
@@ -129,17 +129,17 @@ class Breakingood():
             sys.exit(2)
         
         if raw:
-            print("[+]Working on raw byte append (.BYTE)..")
+            print("[+] Working on raw byte append (.BYTE)..")
             self.add_bytes(malwarePath, resultsPath)
         if strings:
-            print("[+]Working on goodware string append (.STRING)..")
+            print("[+] Working on goodware string append (.STRING)..")
             self.add_strings(malwarePath, goodwarePath, resultsPath)
         if gwa:
-            print("[+]Working on goodware sections append (.GWA)..")
+            print("[+] Working on goodware sections append (.GWA)..")
             self.append_goodware_sections(malwarePath, goodwarePath, resultsPath)
         if swap:
-            print("[+]Working on swap ret with nop (.SWAP)..")
+            print("[+] Working on swap ret with nop (.SWAP)..")
             self.swap_ret_nop(malwarePath, 3, resultsPath)
         if replace:
-            print("[+]Working on replace int3 with addSub (.ADDSUB)..")
+            print("[+] Working on replace int3 with addSub (.ADDSUB)..")
             self.replace_int3_addSub(malwarePath, resultsPath)
