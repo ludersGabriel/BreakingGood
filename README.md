@@ -9,7 +9,7 @@ Tool developed with the objective of generating adversary malware, from existing
     - André Grégio
   - Marcus Botacin
   - Fabrício Ceschin
-### Get to know as better accessing [SECRET - SEcurity & Reverse Engineering Team](https://secret.inf.ufpr.br/)
+### Get to know us better accessing [SECRET - SEcurity & Reverse Engineering Team](https://secret.inf.ufpr.br/)
 
 
 ## Goals
