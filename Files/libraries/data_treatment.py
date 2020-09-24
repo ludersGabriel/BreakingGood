@@ -17,10 +17,15 @@ class data_manager:
         self.nsave = nsave
     
     def open_file(self, name, mode):
-        file = open(name, mode)
-        if file.closed:
-            print("Could not open {name}".format(name=name))
-            sys.exit(1)
+        try:
+            file = open(name, mode)
+        except:
+            if mode == "x" or mode == "xb":
+                print("Error: File {name} already exists".format(name=name))
+                sys.exit(2)
+            else:
+                print("Error: Could not open {name}".format(name=name))
+                sys.exit(2)
         return file
 
     def get_dict(self, file):
